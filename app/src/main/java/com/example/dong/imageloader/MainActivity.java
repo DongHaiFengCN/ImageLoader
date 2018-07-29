@@ -14,6 +14,8 @@ import com.example.dong.tool.MemoryAndDishCache;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String uil ="https://pic.chinaz.com/2018/0303/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.e("DOAING","开始加载");
-                imageLoader.displayImage("https://pic.chinaz.com/2018/0303/18030312320337431.jpg",imageView);
+                imageLoader.displayImage("18030312320337431.jpg",imageView);
 
             }
         });

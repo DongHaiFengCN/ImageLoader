@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.dong.imageloader.MainActivity;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -60,9 +62,6 @@ public class ImageLoader {
 
                     imageView.setImageBitmap(bitmap);
 
-
-
-                    Log.e("DOAING","保存？");
                 }
 
 
@@ -76,7 +75,7 @@ public class ImageLoader {
 
         Bitmap bitmap = null;
         try {
-            URL url = new URL(imageUrl);
+            URL url = new URL(MainActivity.uil+imageUrl);
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             bitmap = BitmapFactory.decodeStream(connection.getInputStream());
         } catch (IOException e) {

@@ -41,7 +41,7 @@ public class DiskCache implements ImageCache {
         FileOutputStream fileOutputStream = null;
 
         try {
-            fileOutputStream = new FileOutputStream(file.getAbsolutePath()+"/1234");
+            fileOutputStream = new FileOutputStream(file.getAbsolutePath()+"/"+key);
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fileOutputStream);
 
         } catch (FileNotFoundException e) {
@@ -62,7 +62,8 @@ public class DiskCache implements ImageCache {
 
     @Override
     public Bitmap getBitMapFromCache(String key) {
-        return BitmapFactory.decodeStream(getClass().getResourceAsStream(cacheDir + key));
+
+        return BitmapFactory.decodeFile(cacheDir+cacheName + "/"+key);
     }
 
     @Override
