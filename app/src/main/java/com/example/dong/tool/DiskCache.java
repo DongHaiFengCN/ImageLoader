@@ -2,17 +2,15 @@ package com.example.dong.tool;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static android.os.Environment.DIRECTORY_PICTURES;
 
 /**
  * 硬盘缓存类
@@ -20,6 +18,11 @@ import static android.os.Environment.DIRECTORY_PICTURES;
 public class DiskCache implements ImageCache {
 
     private static DiskCache diskCache;
+
+    public void setCacheName(String cacheName) {
+        this.cacheName = cacheName;
+    }
+
     private String cacheName = "DOAING";
 
     private DiskCache() {
@@ -34,8 +37,14 @@ public class DiskCache implements ImageCache {
 
         File file = new File(cacheDir+cacheName);
 
-        if(!file.exists()){
-            file.mkdir();
+        if(!file.exists()) {
+
+           boolean isCreate = file.mkdir();
+
+           if(!isCreate){
+
+               return;
+           }
         }
 
         FileOutputStream fileOutputStream = null;
@@ -62,8 +71,12 @@ public class DiskCache implements ImageCache {
 
     @Override
     public Bitmap getBitMapFromCache(String key) {
+        Bitmap bitmap = BitmapFactory.decodeFile(cacheDir+cacheName + "/"+key);
+        if (bitmap!=null){
 
-        return BitmapFactory.decodeFile(cacheDir+cacheName + "/"+key);
+            Log.e("DOAING","从sd中加载");
+        }
+        return bitmap;
     }
 
     @Override

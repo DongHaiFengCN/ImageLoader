@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.dong.tool.DiskCache;
 import com.example.dong.tool.ImageLoader;
 import com.example.dong.tool.MemoryAndDishCache;
+import com.example.dong.tool.MemoryCache;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,13 +29,36 @@ public class MainActivity extends AppCompatActivity {
 
 
         final ImageView imageView = findViewById(R.id.image_ig);
-        final ImageLoader imageLoader = new ImageLoader();
-        imageLoader.setImageCache(new MemoryAndDishCache());
+
+        //创建一个图片加载器
+        final ImageLoader imageLoader =  ImageLoader.getInstance();
+
+        //选择使用两级缓存方法
+        MemoryAndDishCache memoryAndDishCache = new MemoryAndDishCache();
+
+        //设置图片质量
+        memoryAndDishCache.setQuality(100);
+
+        //设置图片的
+        memoryAndDishCache.setCacheName("test");
+
+        imageLoader.setImageCache(memoryAndDishCache);
+
+      /*
+       //只使用sd卡缓存
+       DiskCache diskCache = DiskCache.getInstance();
+
+        imageLoader.setImageCache(diskCache);*/
+
+      /*
+      //只使用内存缓存
+       MemoryCache memoryCache = MemoryCache.getInstance();
+        imageLoader.setImageCache(memoryCache);*/
 
         findViewById(R.id.button_bt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("DOAING","开始加载");
+
                 imageLoader.displayImage("18030312320337431.jpg",imageView);
 
             }

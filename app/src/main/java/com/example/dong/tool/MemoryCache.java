@@ -2,6 +2,7 @@ package com.example.dong.tool;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 
 /**
  * 内存缓存类
@@ -28,7 +29,14 @@ public class MemoryCache implements ImageCache {
 
     @Override
     public Bitmap getBitMapFromCache(String key) {
-        return bitmapLruCache.get(key);
+        Bitmap bitmap = bitmapLruCache.get(key);
+
+        if (bitmap!=null){
+
+            Log.e("DOAING","从内存中加载");
+        }
+
+        return bitmap;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class MemoryAndDishCache implements ImageCache {
      * 首先从内存中获取，如果没有再去sd卡中去读取
      *
      * @param key 文件id
-     * @return
+     * @return bitmap文件
      */
     @Override
     public Bitmap getBitMapFromCache(String key) {
@@ -38,11 +38,9 @@ public class MemoryAndDishCache implements ImageCache {
 
             if (bitmap != null) {
 
-                Log.e("DOAING", "从sd卡中加载");
+
             }
 
-        } else {
-            Log.e("DOAING", "从内存中加载");
         }
 
         return bitmap;
@@ -53,5 +51,17 @@ public class MemoryAndDishCache implements ImageCache {
 
     }
 
+    public void setQuality(int quality){
+
+        diskCache.setQuality(quality);
+    }
+
+    /**
+     *
+     * @param cacheName 文件夹名字
+     */
+    public void setCacheName(String cacheName) {
+        diskCache.setCacheName(cacheName);
+    }
 
 }

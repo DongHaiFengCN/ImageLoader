@@ -15,6 +15,11 @@ import java.util.concurrent.Executors;
 
 public class ImageLoader {
 
+    static ImageLoader imageLoader;
+    private ImageLoader(){
+
+    }
+
     //默认实现内存缓存
     private ImageCache imageCache = MemoryCache.getInstance();
 
@@ -27,11 +32,10 @@ public class ImageLoader {
         this.imageCache = imageCache;
     }
 
-    public void displayImage(String imageUrl, ImageView imageView) {
+    public void displayImage(String key, ImageView imageView) {
 
-        Bitmap bitmap = imageCache.getBitMapFromCache(imageUrl);
+        Bitmap bitmap = imageCache.getBitMapFromCache(key);
 
-        Log.e("DOAING",bitmap+"");
 
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -39,7 +43,7 @@ public class ImageLoader {
         }
 
         //如果没有缓存，使用线程池进行异步下载
-        getLoadRequest(imageUrl, imageView);
+        getLoadRequest(key, imageView);
     }
 
     private void getLoadRequest(final String url, final ImageView imageView) {
@@ -84,5 +88,13 @@ public class ImageLoader {
 
         Log.e("DOAING","从网络加载");
         return bitmap;
+    }
+    public static ImageLoader getInstance() {
+
+        if (imageLoader == null) {
+
+            imageLoader = new ImageLoader();
+        }
+        return imageLoader;
     }
 }
