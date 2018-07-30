@@ -13,18 +13,24 @@ import java.util.concurrent.Executors;
 
 public class ImageLoader {
 
-    public static String uil ="https://pic.chinaz.com/2018/0303/";
+    private String key = null;
 
-    static ImageLoader imageLoader;
-    private ImageLoader(){
-
-    }
+    //图片的根路径
+    private String url = "https://cdn.pixabay.com/photo/2018/07/06/19/48/";
 
     //默认实现内存缓存
     private ImageCache imageCache = MemoryCache.getInstance();
 
     //创建线程池为cpu的数量
     private ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+    private static ImageLoader imageLoader;
+
+
+    private ImageLoader() {
+
+    }
+
 
     //注入缓存
     public void setImageCache(ImageCache imageCache) {
@@ -34,8 +40,16 @@ public class ImageLoader {
 
     public void displayImage(String key, ImageView imageView) {
 
-        Bitmap bitmap = imageCache.getBitMapFromCache(key);
 
+        if(key.equals(this.key)){
+
+         Log.e("DOAING","重复执行了加载");
+         return;
+        }
+
+        this.key = key;
+
+        Bitmap bitmap = imageCache.getBitMapFromCache(key);
 
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -50,24 +64,32 @@ public class ImageLoader {
 
 
         imageView.setTag(url);
+
         executorService.submit(new Runnable() {
             @Override
             public void run() {
 
-                Bitmap bitmap = downLoadImage(url);
+                final Bitmap bitmap = downLoadImage(url);
 
                 if (bitmap == null) {
                     return;
                 }
 
-                if(imageView.getTag().equals(url)){
+                if (imageView.getTag().equals(url)) {
 
-                    imageCache.setBitMapCache(url,bitmap);
+                    //将图片缓存到内存和sd中
+                    imageCache.setBitMapCache(url, bitmap);
 
-                    imageView.setImageBitmap(bitmap);
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            imageView.setImageBitmap(bitmap);
+                        }
+                    });
+
 
                 }
-
 
 
             }
@@ -79,22 +101,35 @@ public class ImageLoader {
 
         Bitmap bitmap = null;
         try {
-            URL url = new URL(uil+imageUrl);
+            URL url = new URL(this.url + imageUrl);
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             bitmap = BitmapFactory.decodeStream(connection.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Log.e("DOAING","从网络加载");
+        Log.e("DOAING", "从网络加载");
         return bitmap;
     }
-    public static ImageLoader getInstance() {
+
+    /**
+     * @param url 图片根路径
+     */
+    public static ImageLoader getInstance(String url) {
 
         if (imageLoader == null) {
 
             imageLoader = new ImageLoader();
+
+            imageLoader.url = url;
         }
         return imageLoader;
     }
+
+
+    public void close(){
+
+        imageLoader = null;
+    }
+
 }

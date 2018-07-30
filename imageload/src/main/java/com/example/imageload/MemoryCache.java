@@ -15,6 +15,8 @@ public class MemoryCache implements ImageCache {
     private MemoryCache(){
 
         long maxMemory = Runtime.getRuntime().maxMemory();
+
+        //创建缓存的内存大小为分配运行内存的六分之一
         int cacheSize = (int) (maxMemory / 6);
         bitmapLruCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
@@ -38,12 +40,6 @@ public class MemoryCache implements ImageCache {
         }
 
         return bitmap;
-    }
-
-    @Override
-    public void deleteBiteMapFromCache(String key) {
-
-        bitmapLruCache.remove(key);
     }
 
     public static MemoryCache getInstance(){

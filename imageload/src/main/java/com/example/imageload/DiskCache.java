@@ -70,17 +70,15 @@ public class DiskCache implements ImageCache {
 
     @Override
     public Bitmap getBitMapFromCache(String key) {
+
+
         Bitmap bitmap = BitmapFactory.decodeFile(cacheDir+cacheName + "/"+key);
+
         if (bitmap!=null){
 
             Log.e("DOAING","从sd中加载");
         }
         return bitmap;
-    }
-
-    @Override
-    public void deleteBiteMapFromCache(String key) {
-
     }
 
     /**
