@@ -1,0 +1,118 @@
+Index: imageload/src/main/java/com/example/imageload/DiskCache.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- imageload/src/main/java/com/example/imageload/DiskCache.java	(revision 5db1c210ed830472f88c442c9e4e54169adb7524)
++++ imageload/src/main/java/com/example/imageload/DiskCache.java	(date 1532926673000)
+@@ -81,6 +81,13 @@
+         return bitmap;
+     }
+ 
++    @Override
++    public void close() {
++
++
++
++    }
++
+     /**
+      * 设置自定义压缩质量
+      *
+Index: imageload/src/main/java/com/example/imageload/ImageCache.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- imageload/src/main/java/com/example/imageload/ImageCache.java	(revision 5db1c210ed830472f88c442c9e4e54169adb7524)
++++ imageload/src/main/java/com/example/imageload/ImageCache.java	(date 1532926673000)
+@@ -7,6 +7,7 @@
+ 
+      void setBitMapCache(String key, Bitmap bitmap);
+      Bitmap getBitMapFromCache(String key);
++     void close();
+ 
+ 
+ }
+Index: imageload/src/main/java/com/example/imageload/MemoryAndDishCache.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- imageload/src/main/java/com/example/imageload/MemoryAndDishCache.java	(revision 5db1c210ed830472f88c442c9e4e54169adb7524)
++++ imageload/src/main/java/com/example/imageload/MemoryAndDishCache.java	(date 1532926673000)
+@@ -47,6 +47,12 @@
+         return bitmap;
+     }
+ 
++    @Override
++    public void close() {
++
++        memoryCache.close();
++    }
++
+     public void setQuality(int quality) {
+ 
+         diskCache.setQuality(quality);
+Index: imageload/src/main/java/com/example/imageload/MemoryCache.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- imageload/src/main/java/com/example/imageload/MemoryCache.java	(revision 5db1c210ed830472f88c442c9e4e54169adb7524)
++++ imageload/src/main/java/com/example/imageload/MemoryCache.java	(date 1532927034000)
+@@ -11,8 +11,9 @@
+ public class MemoryCache implements ImageCache {
+ 
+     private static MemoryCache memoryCache;
+-    private LruCache<String,Bitmap> bitmapLruCache;
+-    private MemoryCache(){
++    private LruCache<String, Bitmap> bitmapLruCache;
++
++    private MemoryCache() {
+ 
+         long maxMemory = Runtime.getRuntime().maxMemory();
+ 
+@@ -25,25 +26,37 @@
+             }
+         };
+     }
++
+     @Override
+     public void setBitMapCache(String key, Bitmap bitmap) {
+-        bitmapLruCache.put(key,bitmap);
++        bitmapLruCache.put(key, bitmap);
+     }
+ 
+     @Override
+     public Bitmap getBitMapFromCache(String key) {
+         Bitmap bitmap = bitmapLruCache.get(key);
+ 
+-        if (bitmap!=null){
++        if (bitmap != null) {
+ 
+-            Log.e("DOAING","从内存中加载");
++            Log.e("DOAING", "从内存中加载");
+         }
+ 
+         return bitmap;
+     }
+ 
+-    public static MemoryCache getInstance(){
+-        if(memoryCache==null){
++    @Override
++    public void close() {
++
++        if (memoryCache != null) {
++
++            memoryCache = null;
++        }
++
++
++    }
++
++    public static MemoryCache getInstance() {
++        if (memoryCache == null) {
+ 
+             memoryCache = new MemoryCache();
+         }

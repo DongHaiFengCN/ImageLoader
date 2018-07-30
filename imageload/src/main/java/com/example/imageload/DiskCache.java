@@ -81,6 +81,13 @@ public class DiskCache implements ImageCache {
         return bitmap;
     }
 
+    @Override
+    public void close() {
+
+
+
+    }
+
     /**
      * 设置自定义压缩质量
      *

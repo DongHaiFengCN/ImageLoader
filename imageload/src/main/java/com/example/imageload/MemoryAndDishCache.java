@@ -47,6 +47,12 @@ public class MemoryAndDishCache implements ImageCache {
         return bitmap;
     }
 
+    @Override
+    public void close() {
+
+        memoryCache.close();
+    }
+
     public void setQuality(int quality) {
 
         diskCache.setQuality(quality);
