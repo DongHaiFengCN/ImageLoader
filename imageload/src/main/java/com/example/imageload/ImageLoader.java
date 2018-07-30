@@ -1,11 +1,9 @@
-package com.example.dong.tool;
+package com.example.imageload;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
-
-import com.example.dong.imageloader.MainActivity;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -14,6 +12,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ImageLoader {
+
+    public static String uil ="https://pic.chinaz.com/2018/0303/";
 
     static ImageLoader imageLoader;
     private ImageLoader(){
@@ -79,7 +79,7 @@ public class ImageLoader {
 
         Bitmap bitmap = null;
         try {
-            URL url = new URL(MainActivity.uil+imageUrl);
+            URL url = new URL(uil+imageUrl);
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             bitmap = BitmapFactory.decodeStream(connection.getInputStream());
         } catch (IOException e) {

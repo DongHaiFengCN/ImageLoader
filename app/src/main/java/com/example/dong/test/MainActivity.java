@@ -1,22 +1,18 @@
-package com.example.dong.imageloader;
+package com.example.dong.test;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.example.dong.tool.DiskCache;
-import com.example.dong.tool.ImageLoader;
-import com.example.dong.tool.MemoryAndDishCache;
-import com.example.dong.tool.MemoryCache;
+import com.example.imageload.ImageLoader;
+import com.example.imageload.MemoryAndDishCache;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String uil ="https://pic.chinaz.com/2018/0303/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //设置图片质量
         memoryAndDishCache.setQuality(100);
 
-        //设置图片的
+        //设置图片所要保存的文件夹的名称
         memoryAndDishCache.setCacheName("test");
 
         imageLoader.setImageCache(memoryAndDishCache);

@@ -1,7 +1,6 @@
-package com.example.dong.tool;
+package com.example.imageload;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 /**
  * 实现内存与sd的双缓存

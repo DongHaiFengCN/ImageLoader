@@ -1,10 +1,6 @@
-package com.example.dong.tool;
+package com.example.imageload;
 
 import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
-import android.util.Log;
-
-import static android.support.constraint.Constraints.TAG;
 
 
 public interface ImageCache {
